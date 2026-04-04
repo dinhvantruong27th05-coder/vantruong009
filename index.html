@@ -1,260 +1,871 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tỏ tình ❤️</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
-
-body{
-    overflow:hidden;
-    background: linear-gradient(135deg,#ff9a9e,#fad0c4);
-    height:100vh;
-}
-
-/* HERO */
-.container{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    color:white;
-    padding:20px;
-}
-
-h1{
-    font-size: clamp(32px,5vw,60px);
-    margin-bottom:20px;
-    animation: fadeIn 2s ease;
-}
-
-p{
-    max-width:600px;
-    font-size:18px;
-    line-height:1.6;
-    margin-bottom:30px;
-    animation: fadeIn 3s ease;
-}
-
-.avatar{
-    width:160px;
-    height:160px;
-    border-radius:50%;
-    object-fit:cover;
-    border:4px solid white;
-    margin-bottom:20px;
-    animation: zoomIn 2s ease;
-}
-
-/* BUTTON */
-.buttons{
-    display:flex;
-    gap:15px;
-}
-
-button{
-    padding:12px 25px;
-    border:none;
-    border-radius:30px;
-    font-size:16px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.yes{
-    background:#ff4d6d;
-    color:white;
-}
-
-.no{
-    background:white;
-    color:#ff4d6d;
-    position:absolute;
-}
-
-.music-btn{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:white;
-    color:#ff4d6d;
-    border-radius:50%;
-    width:50px;
-    height:50px;
-    border:none;
-    cursor:pointer;
-}
-
-/* POPUP */
-.popup{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.7);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    pointer-events:none;
-    transition:0.5s;
-}
-
-.popup.active{
-    opacity:1;
-    pointer-events:auto;
-}
-
-.popup-content{
-    background:white;
-    padding:40px;
-    border-radius:20px;
-    text-align:center;
-    color:#ff4d6d;
-    animation: zoomIn 0.5s ease;
-}
-
-/* HEART */
-.heart{
-    position:fixed;
-    color:#ff4d6d;
-    animation: float 5s linear infinite;
-}
-
-/* CLOCK */
-.timer{
-    margin-top:20px;
-    font-size:16px;
-    opacity:0.9;
-}
-
-/* ANIMATION */
-@keyframes float{
-    0%{transform:translateY(100vh);}
-    100%{transform:translateY(-10vh);}
-}
-
-@keyframes fadeIn{
-    from{opacity:0;}
-    to{opacity:1;}
-}
-
-@keyframes zoomIn{
-    from{transform:scale(0.5);opacity:0;}
-    to{transform:scale(1);opacity:1;}
-}
-
-/* MOBILE */
-@media(max-width:600px){
-    .buttons{
-        flex-direction:column;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Clone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #071631;
+      --bg-2: #091a38;
+      --panel: rgba(10, 26, 56, 0.92);
+      --panel-2: #0b1f43;
+      --line: rgba(111, 145, 208, 0.14);
+      --text: #edf4ff;
+      --muted: #8ea5d6;
+      --blue: #1975ff;
+      --blue-2: #2890ff;
+      --green: #14d879;
+      --orange: #ff8a22;
+      --purple: #c24dff;
+      --cyan: #19e2dd;
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+      --radius: 22px;
+      --sidebar-width: 230px;
+      --header-height: 88px;
     }
-}
-</style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(30, 88, 203, 0.15), transparent 22%),
+        linear-gradient(180deg, #08152e 0%, #06142d 100%);
+      color: var(--text);
+      font-family: "Be Vietnam Pro", sans-serif;
+    }
+
+    body {
+      overflow: hidden;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+      height: 100vh;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, rgba(6, 18, 40, 0.98), rgba(8, 19, 41, 0.98));
+      border-right: 1px solid var(--line);
+      padding: 18px 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 8px 12px;
+      border-bottom: 1px solid rgba(143, 171, 228, 0.08);
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #0d295b, #0c1e43);
+      border: 1px solid rgba(100, 160, 255, 0.22);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .brand-text {
+      line-height: 1.1;
+    }
+
+    .brand-text .sub {
+      font-size: 10px;
+      color: #ffddb0;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .brand-text .name {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #f4ae3f, #ff8447);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .socials {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .socials span {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .socials span:nth-child(1){ background:#1877f2; }
+    .socials span:nth-child(2){ background:#1da1f2; }
+    .socials span:nth-child(3){ background:#ff0050; }
+    .socials span:nth-child(4){ background:#ff9900; }
+
+    .menu-scroll {
+      overflow: auto;
+      padding-right: 6px;
+      flex: 1;
+    }
+
+    .menu-scroll::-webkit-scrollbar { width: 6px; }
+    .menu-scroll::-webkit-scrollbar-thumb {
+      background: rgba(90, 126, 196, 0.26);
+      border-radius: 999px;
+    }
+
+    .section-title {
+      color: rgba(172, 190, 225, 0.72);
+      font-size: 12px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      margin: 18px 14px 10px;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #cad7f6;
+      text-decoration: none;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      transition: .25s ease;
+      font-weight: 600;
+    }
+
+    .nav-item:hover {
+      background: rgba(24, 54, 110, 0.36);
+      border-color: rgba(74, 123, 255, 0.16);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(180deg, rgba(11, 46, 108, 0.62), rgba(11, 37, 84, 0.64));
+      border-color: rgba(56, 133, 255, 0.36);
+      color: #fff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: inline-grid;
+      place-items: center;
+      color: #69a8ff;
+      flex-shrink: 0;
+    }
+
+    .nav-item svg,
+    .top-icon svg,
+    .service-icon svg,
+    .cta-arrow svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .login-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(180deg, #1a7dff, #1468ea);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      border-radius: 12px;
+      padding: 16px 14px;
+      box-shadow: 0 10px 25px rgba(20, 104, 234, 0.35);
+      letter-spacing: .6px;
+      margin-top: 8px;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      background: linear-gradient(180deg, rgba(5,18,41,.97), rgba(7,19,42,.97));
+    }
+
+    .topbar {
+      height: var(--header-height);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 22px;
+    }
+
+    .top-left,
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .menu-btn,
+    .square-btn,
+    .round-btn,
+    .lang-btn,
+    .user-badge {
+      border: 1px solid rgba(120, 150, 213, 0.16);
+      background: rgba(9, 25, 53, 0.8);
+      color: #dce8ff;
+      border-radius: 14px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.03);
+    }
+
+    .menu-btn {
+      width: 48px;
+    }
+
+    .search {
+      position: relative;
+      min-width: 280px;
+      width: 340px;
+    }
+
+    .search input {
+      width: 100%;
+      height: 48px;
+      background: rgba(9, 26, 57, 0.84);
+      border: 1px solid rgba(120, 150, 213, 0.12);
+      color: #dbe9ff;
+      border-radius: 14px;
+      padding: 0 46px 0 44px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search input::placeholder {
+      color: #7f96c6;
+    }
+
+    .search .icon-left,
+    .search .icon-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #7b93c4;
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+    }
+
+    .search .icon-left { left: 16px; }
+    .search .icon-right { right: 16px; }
+
+    .square-btn {
+      width: 48px;
+      position: relative;
+      color: #7eb6ff;
+    }
+
+    .wallet {
+      height: 48px;
+      padding: 0 14px;
+      gap: 10px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      background: rgba(10, 29, 63, 0.85);
+      border: 1px solid rgba(120, 150, 213, 0.14);
+    }
+
+    .wallet .amount {
+      font-weight: 800;
+    }
+
+    .mini-plus {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+
+    .lang-btn {
+      padding: 0 14px;
+      gap: 10px;
+      font-weight: 700;
+      color: #d8e5ff;
+    }
+
+    .round-btn {
+      width: 48px;
+    }
+
+    .user-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #2e8eff, #1d74ef);
+      border: none;
+      font-weight: 800;
+    }
+
+    .content {
+      padding: 18px 16px 24px;
+      overflow: auto;
+    }
+
+    .content::-webkit-scrollbar { width: 8px; }
+    .content::-webkit-scrollbar-thumb {
+      background: rgba(90, 126, 196, 0.22);
+      border-radius: 999px;
+    }
+
+    .page-title {
+      color: #8ea4d1;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin: 0 6px 14px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(8, 24, 52, 0.96), rgba(8, 22, 48, 0.96));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+
+    .welcome {
+      grid-row: 1 / span 2;
+      padding: 36px 36px 30px;
+      position: relative;
+      overflow: hidden;
+      min-height: 370px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .welcome::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 12% 10%, rgba(36, 116, 255, 0.12), transparent 30%);
+      pointer-events: none;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(19, 216, 121, 0.12);
+      border: 1px solid rgba(19, 216, 121, 0.22);
+      color: #64f0a9;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #25e989;
+      box-shadow: 0 0 0 5px rgba(37, 233, 137, 0.12);
+    }
+
+    .welcome h1 {
+      font-size: 28px;
+      line-height: 1.25;
+      font-weight: 800;
+      margin-bottom: 20px;
+      max-width: 420px;
+    }
+
+    .line {
+      width: 58px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2d8bff, transparent);
+      margin-bottom: 22px;
+    }
+
+    .welcome p {
+      max-width: 440px;
+      color: #a3b6dd;
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 30px;
+    }
+
+    .welcome p b {
+      color: #2d8bff;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 26px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, var(--blue-2), var(--blue));
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 16px 36px rgba(25, 117, 255, 0.28);
+    }
+
+    .cta-arrow {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-illustration {
+      flex: 1;
+      min-width: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-right: 18px;
+    }
+
+    .metric {
+      padding: 28px;
+      min-height: 178px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 18px;
+    }
+
+    .metric .label {
+      color: #9cb0d6;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .metric .value {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .metric.blue .value { color: #1975ff; }
+    .metric.green .value { color: #19d575; }
+    .metric.orange .value { color: #ff8a22; }
+
+    .metric .rank {
+      font-size: 36px;
+      font-weight: 800;
+    }
+
+    .section-heading {
+      font-size: 36px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 0 6px 20px;
+      font-weight: 800;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .service-card {
+      position: relative;
+      padding: 28px;
+      min-height: 240px;
+      overflow: hidden;
+    }
+
+    .service-num {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      font-size: 56px;
+      font-weight: 800;
+      color: rgba(129, 154, 214, 0.12);
+      font-style: italic;
+    }
+
+    .service-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 26px;
+      border: 1px solid currentColor;
+      color: inherit;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .service-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .service-card p {
+      color: #9eb2da;
+      line-height: 1.7;
+      font-size: 14px;
+      max-width: 250px;
+    }
+
+    .service-card.blue { color: #2a7fff; }
+    .service-card.orange { color: #ff7c1c; }
+    .service-card.purple { color: #cb54ff; }
+    .service-card.cyan { color: #11dfd8; }
+
+    .support-btn {
+      position: fixed;
+      right: 34px;
+      bottom: 28px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      color: #fff;
+      text-decoration: none;
+      border: 2px solid rgba(247, 137, 224, 0.7);
+      background: rgba(10, 25, 56, 0.9);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      z-index: 20;
+    }
+
+    .support-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      position: relative;
+    }
+
+    .support-dot::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #ff7bd5;
+      border-radius: 50%;
+      right: -3px;
+      top: -3px;
+    }
+
+    @media (max-width: 1400px) {
+      .hero-grid {
+        grid-template-columns: 1.2fr 1fr;
+      }
+
+      .welcome {
+        grid-column: 1 / span 2;
+        grid-row: auto;
+      }
+
+      .services {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 1100px) {
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .sidebar {
+        position: relative;
+        height: auto;
+      }
+
+      .topbar {
+        flex-wrap: wrap;
+        height: auto;
+      }
+
+      .top-left, .top-right {
+        flex-wrap: wrap;
+      }
+
+      .search {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .hero-grid,
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome {
+        min-height: unset;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .hero-illustration {
+        width: 100%;
+        min-width: 0;
+        padding-right: 0;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">TM</div>
+        <div class="brand-text">
+          <div class="sub">Hệ thống MMO hàng đầu VN</div>
+          <div class="name">TRUNGTAMMMO</div>
+          <div class="socials"><span></span><span></span><span></span><span></span></div>
+        </div>
+      </div>
 
-<div class="container">
-    <img src="[LINK ẢNH]" class="avatar">
+      <div class="menu-scroll">
+        <div class="section-title">TRANG CHÍNH</div>
+        <nav class="nav">
+          <a class="nav-item active" href="#">
+            <span class="icon">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+            </span>Trang Chủ
+          </a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 7h18"></path><path d="M6 3h12v18H6z"></path><path d="M15 13h3"></path></svg></span>Nạp Tiền Hệ Thống</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 19h16"></path><path d="M6 17V7"></path><path d="M12 17V4"></path><path d="M18 17v-6"></path></svg></span>Thông Tin Tài Khoản</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 7h18"></path><path d="M5 7v13h14V7"></path><path d="M8 11h8"></path><path d="M8 15h5"></path></svg></span>Lịch sử giao dịch All</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2v20"></path><path d="M2 12h20"></path><circle cx="12" cy="12" r="9"></circle></svg></span>Chính Sách & Hỗ T…</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M5.5 21a6.5 6.5 0 0 1 13 0"></path></svg></span>Kết Nối & Cấp Bậc</a>
+        </nav>
 
-    <h1>Trang à 💖</h1>
+        <div class="section-title">DỊCH VỤ NỔI BẬT</div>
+        <nav class="nav">
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M7 10v10"></path><path d="M12 4v16"></path><path d="M17 14v6"></path><path d="M5 20h14"></path></svg></span>Tăng Tương Tác</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"></path></svg></span>Auto MXH</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z"></path></svg></span>Tài Nguyên</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1"></circle><circle cx="17" cy="20" r="1"></circle><path d="M3 4h2l2.4 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L20 8H7"></path></svg></span>Chợ MMO</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>Forum MMO</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>Chia Sẻ</a>
+          <a class="nav-item" href="#"><span class="icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 9h8"></path><path d="M8 13h5"></path></svg></span>Chat Support Tiktok</a>
+        </nav>
+      </div>
 
-    <p>
-        Từ lúc gặp em, thế giới của anh trở nên đặc biệt hơn...<br>
-       <br><br>
-        Anh thích em rất nhiều 💕<br>
-        Em làm người yêu anh nhé?
-    </p>
+      <a href="#" class="login-btn">
+        <span class="icon"><svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><path d="M10 17l5-5-5-5"></path><path d="M15 12H3"></path></svg></span>
+        ĐĂNG NHẬP / ĐĂNG KÝ
+      </a>
+    </aside>
 
-    <div class="buttons">
-        <button class="yes" onclick="acceptLove()">💖 Đồng ý</button>
-        <button class="no" id="noBtn">Không đồng ý 😢</button>
-    </div>
+    <main class="main">
+      <header class="topbar">
+        <div class="top-left">
+          <button class="menu-btn" aria-label="menu">
+            <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 6h18"></path><path d="M3 12h18"></path><path d="M3 18h18"></path></svg></span>
+          </button>
 
-    <div class="timer" id="timer"></div>
-</div>
+          <div class="search">
+            <span class="icon-left"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.35-4.35"></path></svg></span>
+            <input type="text" placeholder="Tìm MMO, Forum..." />
+            <span class="icon-right"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"></path></svg></span>
+          </div>
 
-<button class="music-btn" onclick="toggleMusic()">🎵</button>
+          <div class="search">
+            <span class="icon-left"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.35-4.35"></path></svg></span>
+            <input type="text" placeholder="Tìm kiếm dịch vụ... (98K)" />
+          </div>
+        </div>
 
-<audio id="music" loop>
-    <source src="https://files.catbox.moe/4uszzt.mp3" type="audio/mp3">
-</audio>
+        <div class="top-right">
+          <div class="wallet">
+            <div class="square-btn" style="width:40px;height:40px;border-radius:12px;">
+              <span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M16 12h.01"></path></svg></span>
+            </div>
+            <div>
+              <div style="font-size:11px;color:#87a0ce;font-weight:700;">SỐ DƯ</div>
+              <div class="amount">0 đ</div>
+            </div>
+            <div class="mini-plus">+</div>
+          </div>
 
-<div class="popup" id="popup">
-    <div class="popup-content">
-        <h2>Yayyyy 💕</h2>
-        <p>Chúc mừng! Từ giờ em là người yêu của anh rồi 🥰</p>
-        <p>Anh sẽ luôn yêu và bảo vệ em ❤️</p>
-    </div>
-</div>
+          <div class="lang-btn">
+            <span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></span>
+            VI
+          </div>
 
-<script>
-// Nút chạy trốn
-const noBtn = document.getElementById("noBtn");
+          <div class="round-btn"><span class="icon"><svg viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-12z"></path><path d="M6 6 4 3H2"></path><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg></span></div>
+          <div class="round-btn"><span class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2"></path><path d="M12 21v2"></path><path d="m4.22 4.22 1.42 1.42"></path><path d="m18.36 18.36 1.42 1.42"></path><path d="M1 12h2"></path><path d="M21 12h2"></path><path d="m4.22 19.78 1.42-1.42"></path><path d="m18.36 5.64 1.42-1.42"></path></svg></span></div>
+          <div class="user-badge">KH</div>
+        </div>
+      </header>
 
-noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-});
+      <section class="content">
+        <div class="page-title">TRANG CHỦ</div>
 
-// Accept
-function acceptLove(){
-    document.getElementById("popup").classList.add("active");
-}
+        <div class="hero-grid">
+          <div class="card welcome">
+            <div class="welcome-copy">
+              <div class="tag"><span class="dot"></span> HỆ THỐNG TRỰC TUYẾN</div>
+              <h1>CHÀO MỪNG TRỞ LẠI,<br>KHÁCH</h1>
+              <div class="line"></div>
+              <p>HỆ THỐNG <b>TRUNGTAMMMO</b> ĐÃ SẴN SÀNG HỖ TRỢ BẠN TỐI ƯU HÓA CÔNG VIỆC KINH DOANH VÀ QUẢN LÝ TÀI NGUYÊN SỐ CHUYÊN NGHIỆP.</p>
+              <a href="#" class="cta">
+                <span class="cta-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+                ĐĂNG NHẬP NGAY
+              </a>
+            </div>
 
-// Hearts
-function createHeart(){
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = Math.random()*20+10+"px";
-    document.body.appendChild(heart);
+            <div class="hero-illustration">
+              <svg width="360" height="220" viewBox="0 0 360 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="185" cy="184" rx="122" ry="18" fill="rgba(80,110,180,.12)"/>
+                <circle cx="197" cy="90" r="74" fill="rgba(255,255,255,.08)"/>
+                <circle cx="229" cy="74" r="38" fill="rgba(142,173,255,.07)"/>
+                <path d="M120 154H260" stroke="rgba(168,194,245,.15)" stroke-width="4" stroke-linecap="round"/>
+                <path d="M126 154L150 132L174 144L200 108L226 124L250 84" stroke="#ff5d63" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M244 76L250 84L240 86" stroke="#ff5d63" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="126" cy="154" r="7" fill="#ffd76f"/>
+                <circle cx="150" cy="132" r="7" fill="#ffd76f"/>
+                <circle cx="174" cy="144" r="7" fill="#ffd76f"/>
+                <circle cx="200" cy="108" r="7" fill="#ffd76f"/>
+                <circle cx="226" cy="124" r="7" fill="#ffd76f"/>
+                <rect x="92" y="122" width="24" height="32" rx="4" fill="rgba(255,196,100,.8)"/>
+                <rect x="84" y="114" width="40" height="10" rx="5" fill="rgba(255,196,100,.55)"/>
+                <circle cx="288" cy="150" r="18" fill="rgba(255,201,74,.78)"/>
+                <path d="M285 137V163" stroke="#fff5d6" stroke-width="3"/>
+                <path d="M298 143C295.5 140 291 139 287.8 141.4C284 144.2 283.8 150 289 151.5C293.7 152.8 295 156.5 293 160C291 163 286 164 282 161.5" stroke="#fff5d6" stroke-width="3" stroke-linecap="round"/>
+                <path d="M182 64L209 41L235 64" stroke="rgba(215,230,255,.55)" stroke-width="4" stroke-linecap="round"/>
+                <path d="M188 68H228V112H188V68Z" fill="rgba(173,197,255,.24)"/>
+                <path d="M197 111L212 83L220 96L228 87" stroke="rgba(242,246,255,.86)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="146" y="133" width="10" height="29" rx="3" fill="#65749c"/>
+                <circle cx="151" cy="125" r="8" fill="#f8caa1"/>
+                <path d="M151 135L140 148H162L151 135Z" fill="#4a7cff"/>
+                <rect x="209" y="127" width="10" height="35" rx="3" fill="#65749c"/>
+                <circle cx="214" cy="118" r="8" fill="#f8caa1"/>
+                <path d="M214 127L203 141H225L214 127Z" fill="#2d3f73"/>
+                <path d="M216 102L233 84" stroke="#ff4d4f" stroke-width="3"/>
+                <path d="M230 83H245V98" stroke="#ff4d4f" stroke-width="3"/>
+                <path d="M151 118V90" stroke="#32497c" stroke-width="3"/>
+                <path d="M151 90L165 96L151 101V90Z" fill="#ff6f6f"/>
+              </svg>
+            </div>
+          </div>
 
-    setTimeout(()=>heart.remove(),5000);
-}
-setInterval(createHeart,300);
+          <div class="card metric blue">
+            <div class="label">SỐ DƯ KHẢ DỤNG</div>
+            <div class="value">0 đ</div>
+          </div>
+          <div class="card metric green">
+            <div class="label">TỔNG NẠP TÍCH LŨY</div>
+            <div class="value">0 đ</div>
+          </div>
+          <div class="card metric orange">
+            <div class="label">NẠP THÁNG HIỆN TẠI</div>
+            <div class="value">0 đ</div>
+          </div>
+          <div class="card metric">
+            <div class="label">CẤP BẬC TÀI KHOẢN</div>
+            <div class="rank">THÀNH VIÊN</div>
+          </div>
+        </div>
 
-// Music
-let playing=false;
-function toggleMusic(){
-    const music=document.getElementById("music");
-    if(!playing){
-        music.play();
-        playing=true;
-    }else{
-        music.pause();
-        playing=false;
-    }
-}
+        <div class="section-heading">DỊCH VỤ NỔI BẬT</div>
 
-// Timer (tính từ ngày bạn thích người ta)
-const startDate = new Date("2024-01-01"); // SỬA NGÀY Ở ĐÂY
+        <div class="services">
+          <div class="card service-card blue">
+            <div class="service-num">01</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M7 10v10"></path><path d="M12 4v16"></path><path d="M17 14v6"></path><path d="M5 20h14"></path></svg></div>
+            <h3>TĂNG TƯƠNG TÁC</h3>
+            <p>DỊCH VỤ TĂNG TƯƠNG TÁC MẠNG XÃ HỘI TỰ ĐỘNG</p>
+          </div>
 
-function updateTimer(){
-    const now = new Date();
-    const diff = now - startDate;
+          <div class="card service-card orange">
+            <div class="service-num">02</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"></path></svg></div>
+            <h3>AUTO MXH</h3>
+            <p>DỊCH VỤ MẠNG XÃ HỘI TÍCH HỢP AI XỬ LÝ MỌI VẤN ĐỀ TỰ ĐỘNG</p>
+          </div>
 
-    const days = Math.floor(diff / (1000*60*60*24));
-    document.getElementById("timer").innerText =
-        "Anh đã thích em được " + days + " ngày rồi ❤️";
-}
-setInterval(updateTimer,1000);
-updateTimer();
-</script>
+          <div class="card service-card purple">
+            <div class="service-num">03</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24"><path d="M12 2 4 6v12l8 4 8-4V6l-8-4z"></path><path d="M4 6l8 4 8-4"></path><path d="M12 10v12"></path></svg></div>
+            <h3>TÀI NGUYÊN</h3>
+            <p>NGUỒN TÀI NGUYÊN MMO CHẤT LƯỢNG, GIÁ CẢ CẠNH TRANH</p>
+          </div>
 
+          <div class="card service-card cyan">
+            <div class="service-num">04</div>
+            <div class="service-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1"></circle><circle cx="17" cy="20" r="1"></circle><path d="M3 4h2l2.4 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L20 8H7"></path></svg></div>
+            <h3>CHỢ MMO</h3>
+            <p>TỰ DO MUA BÁN – GIAO DỊCH NHANH – AN TOÀN</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <a href="#" class="support-btn">
+    <span class="support-dot"></span>
+    LIÊN HỆ HỖ TRỢ
+  </a>
 </body>
 </html>
